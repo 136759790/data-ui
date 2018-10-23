@@ -31,5 +31,34 @@ module.exports = merge(webpackBaseConfig, {
             template: './src/template/index.ejs',
             inject: false
         })
-    ]
+    ],
+    devServer: {
+        historyApiFallback: true,
+        hot: true,
+        inline: true,
+        stats: { colors: true },
+        proxy: {
+            '/data': {
+                target: 'http://localhost',
+                pathRewrite: {'^/data' : '/data'},
+                changeOrigin: true
+            },
+            '/filter': {
+                target: 'http://localhost',
+                pathRewrite: {'^/filter' : '/filter'},
+                changeOrigin: true
+            },
+            '/import': {
+                target: 'http://localhost',
+                pathRewrite: {'^/import' : '/import'},
+                changeOrigin: true
+            },
+            '/websocket': {
+                target: 'ws://localhost',//ws://localhost/websocket
+                ws: true,
+                secure: false,
+                logLevel: 'debug',
+            }
+        }
+    }
 });
